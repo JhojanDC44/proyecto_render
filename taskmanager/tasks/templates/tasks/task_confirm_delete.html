@@ -1,0 +1,25 @@
+{% extends 'tasks/base.html' %}
+{% block title %}Eliminar {{ task.title }} - Gestor de Tareas{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h2>Eliminar Tarea</h2>
+        </div>
+        <div class="card-body">
+            <p class="lead">¿Estás seguro de que deseas eliminar la tarea "{{ task.title }}"?</p>
+            <p>Esta acción no puede deshacerse.</p>
+            
+            <form method="POST">
+                {% csrf_token %}
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </button>
+                    <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">
+                        <i class="bi bi-x"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

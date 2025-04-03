@@ -1,0 +1,53 @@
+{% extends 'tasks/base.html' %}
+{% block title %}{{ task.title }} - Gestor de Tareas{% endblock %}
+{% block content %}
+    <div class="card">
+        <div class="card-header {% if task.completed %}bg-success text-white{% else %}bg-primary text-white{% endif %}">
+            <h2>{{ task.title }}</h2>
+        </div>
+        <div class="card-body">
+            {% if task.description %}
+                <div class="mb-4">
+                    <h5>Descripción:</h5>
+                    <p>{{ task.description|linebreaks }}</p>
+                </div>
+            {% endif %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Estado:</strong> 
+                        {% if task.completed %}
+                            <span class="badge bg-success">Completada</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pendiente</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Fecha de creación:</strong> {{ task.created_at|date:"d/m/Y H:i" }}</p>
+                    <p><strong>Última actualización:</strong> {{ task.updated_at|date:"d/m/Y H:i" }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group">
+                <a href="{% url 'tasks:task_list' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+                <a href="{% url 'tasks:toggle_complete' task.pk %}" class="btn {% if task.completed %}btn-warning{% else %}btn-success{% endif %}">
+                    {% if task.completed %}
+                        <i class="bi bi-arrow-counterclockwise"></i> Reabrir
+                    {% else %}
+                        <i class="bi bi-check"></i> Completar
+                    {% endif %}
+                </a>
+                <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Eliminar
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
